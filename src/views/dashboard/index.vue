@@ -164,7 +164,7 @@ export default {
       }).catch(err => {
           console.log('请求错误', err);
       })
-      fetch('https://wax.eosrio.io/v2/state/get_tokens?account='+e,{
+      await fetch('https://wax.eosrio.io/v2/state/get_tokens?account='+e,{
           method: 'get',
           mode: 'cors',
       }).then(res => {
