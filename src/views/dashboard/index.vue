@@ -174,7 +174,6 @@ export default {
         return res.json()
       }).then(json => {
         const data = { ...json }
-        this.lists.account_name = this.lists.account_name || data.account
         data.data.map(v => {
           if (v.data.cardid) {
             this.lists.nft.push({ img: v.data.img, name: v.data.name })
@@ -190,6 +189,7 @@ export default {
         return res.json()
       }).then(json => {
         const data = { ...json }
+        this.lists.account_name = data.account
         data.tokens.map(v => {
           if (v.symbol === 'TLM') {
             this.lists.tokens = v.amount
