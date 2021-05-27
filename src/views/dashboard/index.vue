@@ -14,7 +14,12 @@
       highlight-current-row
       max-height="800"
     >
-      <el-table-column label="钱包名称" align="center" prop="account_name" width="140" fixed />
+      <el-table-column label="序号" type="index" width="80" align="center" fixed>
+        <template slot-scope="scope">
+          <span>{{scope.$index + 1}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="钱包名称" align="center" prop="account_name" width="140" />
       <el-table-column label="可用wax余额" align="center" prop="core_liquid_balance" width="80" />
       <el-table-column label="可用tlm余额" align="center" prop="tokens" width="80" />
       <el-table-column label="解除质押(wax)" align="center" prop="refund_request_cpu_amount" width="80" />
