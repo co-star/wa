@@ -233,6 +233,7 @@ export default {
           }
         })
       }).catch(err => {
+        this.lists.new_claim = ''
         console.log('请求错误', err)
       })
       if (index === undefined) { // 新增在最后添加
