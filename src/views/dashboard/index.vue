@@ -35,10 +35,10 @@
         <template slot-scope="scope">
           {{ scope.row.nfts.length }}个
           <div style="display:flex;width:700px;flex-wrap: wrap;">
-            <div v-for="(item,index) in allNfts" :key="index">
-              <div v-for="(items,indexs) in scope.row.nfts" :key="indexs" v-show="item.key == items">
-                <img :src="'https://ipfs.io/ipfs/'+ item.value" alt="" width="50">
-              </div>
+            <div v-for="(item,index) in scope.row.nfts" :key="index">
+              <!-- <div v-for="(items,indexs) in scope.row.nfts" :key="indexs" v-show="item.key == items"> -->
+                <img :src="'https://ipfs.io/ipfs/'+ item" alt="" width="50">
+              <!-- </div> -->
             </div>
           </div>
         </template>
@@ -254,6 +254,7 @@ export default {
       if (e === '') return
       this.lists = this.$options.data().lists
       this.lists.nft = Object.assign([])
+      this.lists.nfts = Object.assign([])
       this.listLoading = true
       await fetch('https://wax.greymass.com/v1/chain/get_account', {
         method: 'POST',
@@ -329,7 +330,10 @@ export default {
         data.rows.map(v=>{
           if(v.miner === e){
             this.lists.new_claim = v.template_ids.length
-            this.lists.nfts = v.template_ids
+            // this.lists.nfts = v.template_ids
+            v.template_ids.map(i=>{
+              this.getNewNfts(i)
+            })
           }
         })
       }).catch(err => {
@@ -365,6 +369,20 @@ export default {
       } else {
         this.fetchData(this.name)
       }
+    },
+    async getNewNfts(i){
+      await fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?template_id='+ i +'&limit=1', {
+        method: 'get',
+        mode: 'cors'
+      }).then(res => {
+        return res.json()
+      }).then(json => {
+        const data = { ...json }
+        console.log(data.data[0].data.img)
+        this.lists.nfts.push(data.data[0].data.img)
+      }).catch(err => {
+        console.log('请求错误', err)
+      })
     }
   }
 }
