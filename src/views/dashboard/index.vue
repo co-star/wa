@@ -212,7 +212,7 @@ export default {
           index_position: 1,
           json: true,
           key_type: "",
-          limit: '100',
+          limit: '10',
           lower_bound: e,
           reverse: false,
           scope: "m.federation",
