@@ -31,6 +31,7 @@
           <span :class="Number(scope.row.cpu_limit) < 80 ? 'green' : 'red'">{{ scope.row.cpu_limit }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="未领取装备(NFT)" align="center" prop="new_claim" width="90" />
       <el-table-column label="装备(NFT)" align="center" min-width="720">
         <template slot-scope="scope">
           {{ scope.row.nft.length }}个
@@ -80,7 +81,8 @@ export default {
         cpu_limit_used: 0,
         cpu_limit_max: 0,
         cpu_limit: 0,
-        tokens: ''
+        tokens: '',
+        new_claim: 0
       },
       form: {
         name: ''
@@ -198,6 +200,36 @@ export default {
         data.tokens.map(v => {
           if (v.symbol === 'TLM') {
             this.lists.tokens = v.amount
+          }
+        })
+      }).catch(err => {
+        console.log('请求错误', err)
+      })
+      await fetch('https://api.waxsweden.org/v1/chain/get_table_rows', {
+        method: 'POST',
+        body: JSON.stringify({
+          code: "m.federation",
+          index_position: 1,
+          json: true,
+          key_type: "",
+          limit: '100',
+          lower_bound: e,
+          reverse: false,
+          scope: "m.federation",
+          show_payer: false,
+          table: "claims",
+          table_key: "",
+          upper_bound: null
+        }),
+        mode: 'cors'
+      }).then(res => {
+        return res.json()
+      }).then(json => {
+        const data = { ...json }
+        console.log(data,e)
+        data.rows.map(v=>{
+          if(v.miner === e){
+            this.lists.new_claim = v.template_ids.length
           }
         })
       }).catch(err => {
