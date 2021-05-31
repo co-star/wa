@@ -185,6 +185,11 @@ export default {
           name: "Power Extractor",
           value:'QmdpDgCRsYPFXpvNN6PzBnNEx28RiuLgkHLkcR1Djedb8K'
         },
+        {
+          key:'19556',
+          name: "Infused Extractor",
+          value:'QmaZjaHxcBNYLT2Ba6v3noSZEi3ubNPgCGZm8h8KHekMpr'
+        },
       ]
     }
   },
