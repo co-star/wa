@@ -7,12 +7,13 @@
       v-loading="listLoading"
       :data="list"
       element-loading-text="Loading"
+      element-loading-background="rgba(0, 0, 0, 0)"
       border
       show-summary
       :summary-method="getSummaries"
       fit
       highlight-current-row
-      max-height="800"
+      max-height="750"
     >
       <el-table-column label="序号" type="index" width="80" align="center" fixed>
         <template slot-scope="scope">
