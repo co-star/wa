@@ -237,11 +237,13 @@ export default {
       this.fetchData(e.row.account_name, 0, e.$index)
     },
     detel(e) {
+      this.listLoading = true
       this.list.splice(e.$index, 1)
       this.list.map(v => {
         this.nameList += v.account_name + '-'
       })
       localStorage.setItem(this.title, this.nameList)
+      this.listLoading = false
     },
     onSubmit(formName) {
       this.$refs[formName].validate((valid) => {
