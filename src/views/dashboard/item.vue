@@ -44,10 +44,10 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="装备(NFT)" align="center" min-width="720">
+      <el-table-column label="装备(NFT)" align="center" min-width="680">
         <template slot-scope="scope">
           {{ scope.row.nft.length }}个
-          <div style="display:flex;width:700px;flex-wrap: wrap;">
+          <div style="display:flex;width:650px;flex-wrap: wrap;">
             <div v-for="(item,index) in scope.row.nft" :key="index">
               <img :src="'https://ipfs.io/ipfs/'+ item.img" alt="" width="50">
             </div>
