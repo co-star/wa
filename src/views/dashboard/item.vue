@@ -367,7 +367,6 @@ export default {
           continue
         }
       }
-      console.log(this.title)
       if (localStorage.getItem('nameList') && !localStorage.getItem(this.title)) { // 兼容
         localStorage.setItem(this.title, localStorage.getItem('nameList'))
         localStorage.removeItem('nameList')
@@ -390,7 +389,6 @@ export default {
         return res.json()
       }).then(json => {
         const data = { ...json }
-        console.log(data.data[0].data.img)
         this.lists.nfts.push(data.data[0].data.img)
       }).catch(err => {
         console.log('请求错误', err)

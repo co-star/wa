@@ -10,12 +10,13 @@
         添加分组
       </el-button>
     </el-row>
-    <el-tabs v-model="editableTabsValue" type="border-card" closable @tab-remove="removeTab">
+    <el-tabs v-model="editableTabsValue" type="border-card" @tab-remove="removeTab">
       <el-tab-pane
-        v-for="item in editableTabs"
+        v-for="(item, index) in editableTabs"
         :key="item.name"
         :label="item.title"
         :name="item.name"
+        :closable="index === editableTabs.length - 1"
       >
         <list-item :title="item.title" />
       </el-tab-pane>
