@@ -292,9 +292,9 @@ export default {
       }).then(json => {
         const data = { ...json }
         data.data.map(v => {
-          if (v.data.cardid) {
+          // if (v.data.cardid) {
             this.lists.nft.push({ img: v.data.img, name: v.data.name })
-          }
+          // }
         })
       }).catch(err => {
         console.log('请求错误', err)
@@ -336,7 +336,7 @@ export default {
         return res.json()
       }).then(json => {
         const data = { ...json }
-        console.log(data, e)
+        // console.log(data, e)
         data.rows.map(v => {
           if (v.miner === e) {
             this.lists.new_claim = v.template_ids.length
