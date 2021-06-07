@@ -341,8 +341,19 @@ export default {
           if (v.miner === e) {
             this.lists.new_claim = v.template_ids.length
             // this.lists.nfts = v.template_ids
-            v.template_ids.map(i => {
-              this.getNewNfts(i)
+            v.template_ids.map( async i => {
+              // this.getNewNfts(i)
+              await fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?template_id=' + i + '&limit=1', {
+                method: 'get',
+                mode: 'cors'
+              }).then(res => {
+                return res.json()
+              }).then(json => {
+                const data = { ...json }
+                this.lists.nfts.push(data.data[0].data.img)
+              }).catch(err => {
+                console.log('请求错误', err)
+              })
             })
           }
         })
