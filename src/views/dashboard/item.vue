@@ -299,30 +299,30 @@ export default {
       }).catch(err => {
         console.log('请求错误', err)
       })
-      await fetch('https://wax.eosrio.io/v2/state/get_tokens?account=' + e, {
+      await fetch('https://lightapi.eosamsterdam.net/api/balances/wax/' + e, {
         method: 'get',
         mode: 'cors'
       }).then(res => {
         return res.json()
       }).then(json => {
         const data = { ...json }
-        this.lists.account_name = data.account
-        data.tokens.map(v => {
-          if (v.symbol === 'TLM') {
+        this.lists.account_name = data.account_name
+        data.balances.map(v => {
+          if (v.currency === 'TLM') {
             this.lists.tokens = v.amount
           }
         })
       }).catch(err => {
         console.log('请求错误', err)
       })
-      await fetch('https://api.waxsweden.org/v1/chain/get_table_rows', {
+      await fetch('https://wax.greymass.com/v1/chain/get_table_rows', {
         method: 'POST',
         body: JSON.stringify({
           code: 'm.federation',
           index_position: 1,
           json: true,
           key_type: '',
-          limit: '10',
+          limit: '1',
           lower_bound: e,
           reverse: false,
           scope: 'm.federation',
