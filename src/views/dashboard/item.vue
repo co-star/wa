@@ -389,7 +389,7 @@ export default {
       if (nameList && nameList.length > 0) {
         for (const v of Array.from(new Set(nameList.split('-')))) {
           await this.fetchData(v)
-          sleep(666)
+          // sleep(666)
         }
       } else {
         this.fetchData(this.name)
@@ -407,6 +407,29 @@ export default {
       }).catch(err => {
         console.log('请求错误', err)
       })
+    },
+    handleFetchQueue(urls, max, callback){
+      const urlCount = urls.length;
+      const requestsQueue = [];
+      const results = [];
+      let i = 0;
+      const handleRequest = (url) => {
+        const req = fetch(url).then(res => {
+          const len = results.push(res);
+          if (len < urlCount && i + 1 < urlCount) {
+            requestsQueue.shift();
+            handleRequest(urls[++i])
+          } else if (len === urlCount) {
+            'function' === typeof callback && callback(results)
+          }
+        }).catch(e => {
+          results.push(e)
+        });
+        if (requestsQueue.push(req) < max) {
+          handleRequest(urls[++i])
+        }
+      };
+      handleRequest(urls[i])
     }
   }
 }
