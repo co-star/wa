@@ -32,14 +32,13 @@
           <span :class="Number(scope.row.cpu_limit) < 80 ? 'green' : 'red'">{{ scope.row.cpu_limit }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="Racoon Coins" align="center" prop="racoon_coins" width="80" />
       <el-table-column label="未领取装备(NFT)" align="center" prop="new_claim" width="220">
         <template slot-scope="scope">
           {{ scope.row.nfts.length }}个
-          <div style="display:flex;width:700px;flex-wrap: wrap;">
+          <div style="display:flex;width:300px;flex-wrap: wrap;">
             <div v-for="(item,index) in scope.row.nfts" :key="index">
-              <!-- <div v-for="(items,indexs) in scope.row.nfts" :key="indexs" v-show="item.key == items"> -->
               <img :src="'https://ipfs.io/ipfs/'+ item" alt="" width="50">
-              <!-- </div> -->
             </div>
           </div>
         </template>
@@ -102,7 +101,8 @@ export default {
         cpu_limit: 0,
         tokens: '',
         new_claim: 0,
-        nfts: []
+        nfts: [],
+        racoon_coins: ''
       },
       form: {
         name: ''
@@ -110,94 +110,7 @@ export default {
       dialogVisible: false,
       listLoading: false,
       name: 'jb.ri.wam', // 5kqsu.wam-5xis4.wam
-      nameList: '',
-      allNfts: [
-        {
-          key: '19569',
-          name: 'Causian Attractor',
-          value: 'QmcBLkQibsKtyihhTS75Uy5arpeKRXAJbFH6VkBomkt3yg'
-        },
-        {
-          key: '19553',
-          name: 'Standard Drill',
-          value: 'QmVUZHpUkc3PuLkJ7BDvJ3S3AgDySjsqWQib1sVKziHCbS'
-        },
-        {
-          key: '19552',
-          name: 'Standard Shovel',
-          value: 'QmYm1FG7LxhF3mFUaVmVEVqRztEmByVbHwL6ZWXwVY2dvb'
-        },
-        {
-          key: '19558',
-          name: 'Standard Capacitor',
-          value: 'QmaFe19mLD911BfZWn2tvEN7Ea8xjdirnQQRisUGGBzBPb'
-        },
-        {
-          key: '19644',
-          name: 'Grey Peacemaker',
-          value: 'Qme5HWgJritQsBFeGsbYW1XCpe9YBmJY5z6SLq8aGbWQtP'
-        },
-        {
-          key: '19610',
-          name: 'Standard Issue Axe',
-          value: 'QmPSjMKxC6aZYJiKxSVtb6yVRB7CYC327zUt7dpEbMXot2'
-        },
-        {
-          key: '19637',
-          name: 'Stealth Mercenary',
-          value: 'QmVXsVEkT5fuASSexrcMQuuXWZFFSuGRSyRkLGghq1yhpW'
-        },
-        {
-          key: '19609',
-          name: 'Rock Cudgel',
-          value: 'QmWaWj1K2yvVbQWMiePHR5scbpus3hXYHEwWi5wJDjhTVf'
-        },
-        {
-          key: '19583',
-          name: 'Standard Sword',
-          value: 'QmYfMb6jv4fAkYKCYn36kHeXE1PpPhqwCuh5jP9KbJs8jC'
-        },
-        {
-          key: '19648',
-          name: 'Female Human',
-          value: 'QmQUU3KsrRuPiFgmu9wJWp2f9NJ4WzD3eVjMRJdctf9rtR'
-        },
-        {
-          key: '19649',
-          name: 'Male Human',
-          value: 'QmXa4fjB7AVd8rLvUcBk5uPKVugg2Bfj26PEwVth71T3yn'
-        },
-        {
-          key: '19651',
-          name: 'Male Grey',
-          value: 'QmRnmsAXtdxFiosAC4xTNAirxtACSh8Cua4Nnp367XEZae'
-        },
-        {
-          key: '19619',
-          name: 'Standard Shield',
-          value: 'Qmd9MPkRCXxgxLaAfs39sHYiQEvQ8w9zb6HQ4i6PJWTHrb'
-        },
-        {
-          key: '19566',
-          name: 'Artunian Shovel',
-          value: 'QmWQcurYpmVDaq4wpzY1FreSXX1DvZq6A7KDc2GfS8hBaF'
-        },
-        {
-          key: '19559',
-          name: 'Basic Trilium Detector',
-          value: 'QmTY7qLossCEC9ypDqyCtsHhzLPVy742Fp2mqsdDg8KKNt'
-        },
-        {
-          key: '19554',
-          name: 'Power Extractor',
-          value: 'QmdpDgCRsYPFXpvNN6PzBnNEx28RiuLgkHLkcR1Djedb8K'
-        },
-        {
-          key: '19556',
-          name: 'Infused Extractor',
-          value: 'QmaZjaHxcBNYLT2Ba6v3noSZEi3ubNPgCGZm8h8KHekMpr'
-        }
-      ]
+      nameList: ''
     }
   },
   mounted() {
@@ -266,6 +179,33 @@ export default {
       this.lists.nft = Object.assign([])
       this.lists.nfts = Object.assign([])
       this.listLoading = true
+      await fetch('https://wax.cryptolions.io/v1/chain/get_table_rows', {
+        method: 'POST',
+        body: JSON.stringify({
+          code: "collectwhale",
+          index_position: 1,
+          json: true,
+          key_type: "",
+          limit: 1,
+          lower_bound: "",
+          reverse: false,
+          scope: e,
+          show_payer: false,
+          table: "accounts",
+          table_key: "",
+          upper_bound: ""
+        }),
+        mode: 'cors'
+      }).then(res => {
+        return res.json()
+      }).then(json => {
+        const data = { ...json }
+        // console.log(data.rows.length, e)
+        this.lists.racoon_coins = data.rows.length>0?Number(data.rows[0].balance.split('R')[0]).toFixed(2):''
+      }).catch(err => {
+        this.lists.new_claim = ''
+        console.log('请求错误', err)
+      })
       await fetch('https://wax.greymass.com/v1/chain/get_account', {
         method: 'POST',
         body: JSON.stringify({ account_name: e }),
