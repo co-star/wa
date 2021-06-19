@@ -20,7 +20,7 @@
           <span>{{ scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="钱包名称" align="center" prop="account_name" width="140" />
+      <el-table-column label="钱包名称" align="center" prop="account_name" width="100" />
       <el-table-column label="可用wax余额" align="center" prop="core_liquid_balance" width="80" />
       <el-table-column label="可用tlm余额" align="center" prop="tokens" width="80" />
       <el-table-column label="解除质押(wax)" align="center" prop="refund_request_cpu_amount" width="80" />
@@ -33,7 +33,7 @@
         </template>
       </el-table-column>
       <el-table-column label="Racoon Coins" align="center" prop="racoon_coins" width="80" />
-      <el-table-column label="未领取装备(NFT)" align="center" prop="new_claim" width="220">
+      <el-table-column label="未领取装备(NFT)" align="center" prop="new_claim" width="200">
         <template slot-scope="scope">
           {{ scope.row.nfts.length }}个
           <div style="display:flex;width:300px;flex-wrap: wrap;">
